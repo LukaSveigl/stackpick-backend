@@ -9,6 +9,13 @@ fi
 # Read which environment the user wishes to start from the command line argument.
 ENVIRONMENT=$1
 
+# Check if the user passed the --build flag to the script.
+if [[ "$2" == "--build" ]]; then
+  BUILD_FLAG="--build"
+else
+  BUILD_FLAG=""
+fi
+
 # Validate the environment argument, is it either "local", "stag" or "prod"?
 if [[ "$ENVIRONMENT" != "local" && "$ENVIRONMENT" != "stag" && "$ENVIRONMENT" != "prod" ]]; then
   echo "Invalid environment specified. Please choose one of: local, stag, prod."
@@ -26,4 +33,4 @@ fi
 cp "$ENV_FILE" .env
 
 # Start the Docker Compose environment.
-docker compose up --build
+docker compose up $BUILD_FLAG
